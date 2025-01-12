@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(muggefug VERSION 0.1.0)
+project(nuss VERSION 0.1.0)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
