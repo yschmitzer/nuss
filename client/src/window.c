@@ -18,14 +18,13 @@ void window_input(window_t *window, server_t *server)
     if (WindowShouldClose()) {
         window->should_close = true;
     }
-    if (IsKeyPressed(KEY_C)) {
+    if (IsKeyPressed(KEY_P)) {
         if (!server->peer) {
             server_connect(server, "127.0.0.1", 6942);
-        }
-    }
-    if (IsKeyPressed(KEY_D)) {
-        if (server->client) {
-            server_disconnect(server);
+        } else {
+            if (server->client) {
+                server_disconnect(server);
+            }
         }
     }
 }
