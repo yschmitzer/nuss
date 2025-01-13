@@ -54,13 +54,14 @@ void server_update(server_t *server)
     while (enet_host_service(server->client, &event, 0) > 0) {
         switch (event.type) {
             case ENET_EVENT_TYPE_CONNECT:
-                logger_write_info("Connected to server.");
-                break;
-            case ENET_EVENT_TYPE_RECEIVE:
-                enet_packet_destroy(event.packet);
+                logger_write_info("Connected to server");
                 break;
             case ENET_EVENT_TYPE_DISCONNECT:
-                logger_write_info("Disconnected from server.");
+                logger_write_info("Disconnected from server");
+                break;
+            case ENET_EVENT_TYPE_RECEIVE:
+                logger_write_info("Received Packet from server");
+                enet_packet_destroy(event.packet);
                 break;
             default:
                 break;

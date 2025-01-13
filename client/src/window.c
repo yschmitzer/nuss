@@ -1,6 +1,8 @@
 #include "../include/window.h"
+#include "enet/enet.h"
 #include "raylib.h"
 #include "../include/server.h"
+#include <string.h>
 
 int window_init(window_t *window, int width, int height, const char *title)
 {
@@ -25,6 +27,20 @@ void window_input(window_t *window, server_t *server)
             if (server->client) {
                 server_disconnect(server);
             }
+        }
+    }
+    if (IsKeyPressed(KEY_U)) {
+        if (server->peer) {
+            const char *message = "Hello, server!";
+            ENetPacket *packet = enet_packet_create(
+                message,
+                strlen(message) + 1,
+                ENET_PACKET_FLAG_RELIABLE
+            );
+            enet_peer_send(server->peer, 0, packet);
+            enet_host_flush(server->client);
+        } else {
+            printf("Not connected to server. Cannot send packet.\n");
         }
     }
 }

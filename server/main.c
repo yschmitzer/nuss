@@ -1,6 +1,7 @@
 #include <enet/enet.h>
 #include <stdbool.h>
 #include <signal.h>
+#include <stdio.h>
 #include "logger.h"
 #include "include/server.h"
 
@@ -51,7 +52,7 @@ int main()
                 logger_write_info("Client disconnected");
                 break;
             case ENET_EVENT_TYPE_RECEIVE:
-                logger_write_info("Packet received");
+                logger_write_info("Packet received from Client");
                 enet_packet_destroy(event.packet);
                 break;
             default:
