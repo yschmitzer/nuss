@@ -1,0 +1,6 @@
+[submodule "external/enet"]
+	path = external/enet
+	url = https://github.com/lsalzman/enet.git
+[submodule "external/raylib"]
+	path = external/raylib
+	url = https://github.com/raysan5/raylib.git
