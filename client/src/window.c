@@ -1,22 +1,47 @@
-#include "window.h"
+#include "../include/window.h"
 #include "raylib.h"
+#include "../include/server.h"
 
-bool window_init(int width, int height, const char *title) {
+int window_init(window_t *window, int width, int height, const char *title)
+{
+    window->should_close = false;
+    window->width = width;
+    window->height = height;
     InitWindow(width, height, title);
-    SetExitKey(KEY_F12);
-    return !WindowShouldClose();
+    while (!IsWindowReady()) {}
+    SetExitKey(KEY_NULL);
+    return 0;
 }
 
-void window_refresh() {
+void window_input(window_t *window, server_t *server)
+{
+    if (WindowShouldClose()) {
+        window->should_close = true;
+    }
+    if (IsKeyPressed(KEY_C)) {
+        if (!server->peer) {
+            server_connect(server, "127.0.0.1", 6942);
+        }
+    }
+    if (IsKeyPressed(KEY_D)) {
+        if (server->client) {
+            server_disconnect(server);
+        }
+    }
+}
+
+void window_update(window_t *window)
+{
+}
+
+void window_render(window_t *window)
+{
     BeginDrawing();
     ClearBackground(RAYWHITE);
     EndDrawing();
 }
 
-bool window_should_close() {
-    return WindowShouldClose();
-}
-
-void window_destroy() {
+void window_destroy(window_t *window)
+{
     CloseWindow();
 }

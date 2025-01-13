@@ -1,4 +1,4 @@
-#include "server.h"
+#include "../include/server.h"
 #include "enet/enet.h"
 #include "logger.h"
 
@@ -6,7 +6,7 @@ int server_init(server_t *server)
 {
     if (enet_initialize() != 0) {
         logger_write_error("Could not initialize ENet");
-        return 1;
+        return -1;
     }
 
     server->port = 6942;
@@ -14,7 +14,7 @@ int server_init(server_t *server)
     server->channels_max = 2;
     server->incoming_bandwidth = 0;
     server->outgoing_bandwidth = 0;
-    server->is_running = 0;
+    server->is_running = false;
 
     server->address.host = ENET_HOST_ANY;
     server->address.port = server->port;
@@ -28,10 +28,10 @@ int server_init(server_t *server)
 
     if (!server->host) {
         logger_write_error("Failed to create ENet server host");
-        return 1;
+        return -2;
     }
 
-    server->is_running = 1;
+    server->is_running = true;
     logger_write_info("Server initialized");
     return 0;
 }

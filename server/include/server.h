@@ -1,7 +1,7 @@
-#ifndef SERVER_H
-#define SERVER_H
+#pragma once
 
 #include "enet/enet.h"
+#include <stdbool.h>
 #include <stdint.h>
 
 typedef struct server {
@@ -10,13 +10,11 @@ typedef struct server {
     uint16_t clients_max;
     uint16_t channels_max;
     uint16_t port;
-    uint8_t is_running;
+    bool is_running;
     ENetHost *host;
     ENetAddress address;
-    // ENetPeer *clients[5]; //TODO: how to make this dynamically adjustable? should use clients_max... !
+    // ENetPeer *clients[5]; //TODO
 } server_t;
 
 int server_init(server_t *server);
 void server_destroy(server_t *server);
-
-#endif // SERVER_H

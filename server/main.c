@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <signal.h>
 #include "logger.h"
-#include "src/server.h"
+#include "include/server.h"
 
 volatile bool server_should_stop = false;
 
@@ -14,8 +14,7 @@ void handle_signal(int signal)
 }
 
 int signal_init()
-{
-    if (signal(SIGINT, handle_signal) == SIG_ERR) {
+{ if (signal(SIGINT, handle_signal) == SIG_ERR) {
         logger_write_error("Error setting up signal handler");
         return 1;
     }
@@ -28,13 +27,18 @@ int signal_init()
 
 int main()
 {
-    if (logger_init(true) != 0) return 1;
+    int error = 0;
+    server_t server;
+
+    error = logger_init(1);
+    if (error != 0) return error;
     logger_write_info("Logger initialized");
 
-    if (signal_init() != 0) return 1;
+    error = signal_init();
+    if (error != 0) return error;
 
-    server_t server;
-    server_init(&server);
+    error = server_init(&server);
+    if (error != 0) return error;
 
     while (server.is_running && !server_should_stop) {
         ENetEvent event;
